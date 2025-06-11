@@ -21,12 +21,12 @@ const props = defineProps<AboutProps>()
       v-if="props.image"
       :src="props.image.src"
       :alt="props.image.alt"
-      class="w-full h-auto rounded-lg shadow-lg"
+      class="w-full h-auto rounded-lg shadow-2xl"
     />
 
     <USkeleton
       v-else
-      class="w-full h-[524px] rounded-lg shadow-lg"
+      class="w-full h-[524px] rounded-lg shadow-2xl"
     />
   </UPageSection>
 </template>

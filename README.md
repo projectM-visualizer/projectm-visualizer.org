@@ -39,13 +39,19 @@ bun dev
 
 <div align="center">
   <img 
-    src="./.github/assets/screenshot-light.png" 
+    src="./.github/assets/screenshot-dark-home.png" 
     alt="ProjectM Visualizer Website Screenshot" 
     width="100%"
   />
 
   <img 
-    src="./.github/assets/screenshot-dark.png" 
+    src="./.github/assets/screenshot-light-home.png" 
+    alt="ProjectM Visualizer Website Screenshot" 
+    width="100%"
+  />
+
+  <img 
+    src="./.github/assets/screenshot-light-projects.png" 
     alt="ProjectM Visualizer Website Screenshot" 
     width="100%"
   />

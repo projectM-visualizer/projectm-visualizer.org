@@ -141,9 +141,9 @@ export const useDataStore = defineStore('data', () => {
           icon: 'i-lucide-square-play'
         },
         {
-          label: 'Developer',
-          to: '/developer',
-          icon: 'i-lucide-code-xml',
+          label: 'Docs',
+          to: '/docs/user',
+          icon: 'i-lucide-book-text',
           color: 'neutral',
           variant: 'subtle',
           trailingIcon: 'i-lucide-arrow-right'
@@ -190,10 +190,18 @@ export const useDataStore = defineStore('data', () => {
     }
   })
 
+  const projects = reactive<ProjectsProps>({
+    items: projectsJson,
+    itemsToShow: 0,
+    sortBy: 'stars',
+    featured: []
+  })
+
   return { 
     navbar, 
     footer, 
     home,
+    projects
   }
 })
 

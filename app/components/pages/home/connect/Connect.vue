@@ -20,7 +20,7 @@ const widgetSrc = computed(() => {
       allowtransparency="true" 
       frameborder="0" 
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-      class="w-full h-[524px] rounded-xl"
+      class="w-full h-[524px] rounded-lg shadow-2xl ring ring-default overflow-hidden"
     />
   </UPageSection>
 </template>
