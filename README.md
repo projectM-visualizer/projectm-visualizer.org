@@ -32,3 +32,21 @@ bun dev
 ```
 
 5. Open your browser and navigate to `http://localhost:3000` to view the website.
+
+<br>
+
+## Screenshots
+
+<div align="center">
+  <img 
+    src="./.github/assets/screenshot-light.png" 
+    alt="ProjectM Visualizer Website Screenshot" 
+    width="100%"
+  />
+
+  <img 
+    src="./.github/assets/screenshot-dark.png" 
+    alt="ProjectM Visualizer Website Screenshot" 
+    width="100%"
+  />
+</div>
