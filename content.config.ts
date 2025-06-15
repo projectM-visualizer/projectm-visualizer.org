@@ -110,6 +110,36 @@ const collections = {
   docs: defineCollection({
     type: 'page',
     source: '1.docs/**/*'
+  }),
+  download: defineCollection({
+    type: 'page',
+    source: '2.download.yml',
+    schema: z.object({
+      download: createBaseSchema().extend({
+        reverse: z.boolean().optional(),
+        orientation: z.enum(orientationEnum).optional(),
+        icon: z.string().optional()
+      }).optional()
+    })
+  }),
+  projects: defineCollection({
+    type: 'page',
+    source: '3.projects.yml',
+    schema: z.object({
+      projects: createBaseSchema().extend({
+        reverse: z.boolean().optional(),
+        orientation: z.enum(orientationEnum).optional(),
+        icon: z.string().optional(),
+        itemsToShow: z.number().optional(),
+        sortBy: z.enum(['name', 'updated', 'stars', 'forks']).optional(),
+        featured: z.array(z.string()).optional()
+      }).optional()
+    })
+  }),
+  blog: defineCollection({
+    type: 'page',
+    source: '4.blog/**/*',
+    schema: z.object({})
   })
 }
 

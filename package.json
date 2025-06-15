@@ -59,7 +59,6 @@
     "vue-tsc": "^2.2.10"
   },
   "trustedDependencies": [
-    "better-sqlite3",
     "@parcel/watcher",
     "@tailwindcss/oxide",
     "unrs-resolver"

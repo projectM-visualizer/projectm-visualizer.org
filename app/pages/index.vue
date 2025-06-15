@@ -2,7 +2,7 @@
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 
-const { data: page } = await useAsyncData('index', () => queryCollection('index').first())
+const { data: page } = await useAsyncData('page-index', () => queryCollection('index').first())
 
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
@@ -19,7 +19,7 @@ const { isMobile } = useDevice()
 
 const videoReady = ref(false)
 
-const projects = ref<ProjectItem[]>([])
+const projects = ref<ProjectExportItem[]>([])
 const contributors = ref<ContributorItem[]>([])
 
 const loadingProjects = ref(true)
@@ -56,6 +56,8 @@ onMounted(async () => {
     })
 
     projects.value = projectData
+
+    console.log('Projects loaded:', projects.value)
 
     await new Promise(resolve => setTimeout(resolve, 300))
   } catch (error) {
@@ -130,77 +132,13 @@ onMounted(async () => {
         container: 'pb-8 sm:pb-12 lg:pb-20'
       }"
     >
-      <UPageGrid>
-        <template v-if="loadingProjects">
-          <USkeleton
-            v-for="index in 6"
-            :key="'project-' + index"
-            class="h-[198px] rounded-xl"
-          />
-        </template>
-
-        <template v-else>
-          <UPageCard
-            v-for="(project, index) in projects"
-            :key="index"
-            variant="ghost"
-            :to="project.html_url"
-            target="_blank"
-            :ui="{
-              footer: 'pt-4 mt-auto self-stretch'
-            }"
-          >
-            <template #body>
-              <UUser
-                :name="useStyleName(project.name)"
-                :description="project.description"
-                :avatar="{ src: project.owner.avatar_url, alt: project.owner.login }"
-                size="lg"
-                class="relative"
-                orientation="vertical"
-                :ui="{
-                  description: 'text-xs pt-1'
-
-                }"
-              />
-            </template>
-
-            <template #footer>
-              <div class="flex items-center justify-between text-xs text-gray-500">
-                <span
-                  v-if="project.updated_at"
-                  class="self-stretch"
-                >
-                  {{ useStyleDate(project.updated_at) }}
-                </span>
-
-                <div class="space-x-2 flex items-center">
-                  <span
-                    v-if="project.stargazers_count > 0"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      name="i-lucide-star"
-                      class="mr-1 size-3"
-                    />
-                    {{ useStyleCount(project.stargazers_count) }}
-                  </span>
-                  <span
-                    v-if="project.forks_count > 0"
-                    class="flex items-center"
-                  >
-                    <UIcon
-                      name="i-lucide-git-fork"
-                      class="mr-1 size-3"
-                    />
-                    {{ useStyleCount(project.forks_count) }}
-                  </span>
-                </div>
-              </div>
-            </template>
-          </UPageCard>
-        </template>
-      </UPageGrid>
+      <ProjectsGitHubGrid
+        :items="projects"
+        :items-to-show="page.projects.itemsToShow"
+        :spotlight="true"
+        spotlight-class="[--spotlight-color:var(--ui-primary)] [--spotlight-size:360px]"
+        :loading="loadingProjects"
+      />
     </UPageSection>
 
     <UContainer

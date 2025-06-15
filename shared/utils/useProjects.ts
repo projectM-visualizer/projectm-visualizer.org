@@ -15,6 +15,21 @@ export interface ProjectItem {
   forks_count: number
 }
 
+export interface ProjectExportItem {
+  id: number
+  to: string
+  name: string
+  fullName: string
+  description: string
+  owner: {
+    src: string
+    alt: string
+  }
+  updatedAt: string
+  stars: number
+  forks: number
+}
+
 export async function useProjects({
   itemsToShow,
   featured,
@@ -23,7 +38,7 @@ export async function useProjects({
   featured: string[]
   sortBy: SortByEnum
   itemsToShow: number
-}): Promise<ProjectItem[]> {
+}): Promise<ProjectExportItem[]> {
   const keyEnv = useRuntimeConfig().public.assetKey
 
   if (!keyEnv) {
@@ -89,5 +104,22 @@ export async function useProjects({
     }
   })
 
-  return sorted.slice(0, Math.min(itemsToShow, sorted.length))
+  const sortedItems = itemsToShow === 0 ? sorted : sorted.slice(0, Math.min(itemsToShow, sorted.length))
+
+  const exportItems: ProjectExportItem[] = sortedItems.map(item => ({
+    id: item.id,
+    to: item.html_url,
+    name: item.name,
+    fullName: item.full_name,
+    description: item.description || '',
+    owner: {
+      src: item.owner.avatar_url,
+      alt: item.owner.login
+    },
+    updatedAt: new Date(item.updated_at).toLocaleDateString(),
+    stars: item.stargazers_count || 0,
+    forks: item.forks_count || 0
+  }))
+
+  return exportItems
 }

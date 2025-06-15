@@ -1,0 +1,22 @@
+title:
+description:
+seo:
+  title:
+  description:
+navigation.icon: i-lucide-download
+
+download:
+  reverse: false
+  orientation: vertical
+  icon: i-lucide-folder-root
+  title: Download
+  description: Find the latest releases of our software and tools.
+  features:
+    - title: Applications
+      description: Download our software packages.
+      icon: i-lucide-package
+      link: /download/application
+    - title: Library
+      description: Download our command-line tools.
+      icon: i-lucide-terminal
+      link: /download/library

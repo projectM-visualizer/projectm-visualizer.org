@@ -1,0 +1,17 @@
+title:
+description:
+seo:
+  title:
+  description:
+navigation.icon: i-lucide-folder-root
+
+projects:
+  reverse: false
+  orientation: vertical
+  icon: i-lucide-folder-root
+  title: Our Projects
+  description: Explore our open-source projects that help developers build more inspiring applications.
+  itemsToShow: 0
+  sortBy: stars
+  # featured:
+  #   - projectm

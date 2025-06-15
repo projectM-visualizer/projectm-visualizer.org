@@ -17,11 +17,11 @@ links:
   - label: Download
     icon: i-lucide-download
     to: /download
-    disabled: true
+    disabled: false
   - label: Projects
     icon: i-lucide-folder-root
     to: /projects
-    disabled: true
+    disabled: false
   - label: Blog
     icon: i-lucide-pencil
     to: /blog
