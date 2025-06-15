@@ -17,12 +17,12 @@ useHead({
   }
 })
 
-// useSeoMeta({
-//   titleTemplate: '%s - ProjectM Visualizer Organization',
-//   ogImage: '',
-//   twitterImage: '',
-//   twitterCard: 'summary_large_image'
-// })
+useSeoMeta({
+  titleTemplate: '%s - ProjectM Visualizer Organization',
+  ogImage: `${useRuntimeConfig().public.siteUrl}/assets/images/og-image.png`,
+  twitterImage: `${useRuntimeConfig().public.siteUrl}/assets/images/og-image.png`,
+  twitterCard: 'summary_large_image'
+})
 
 const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
   transform: data => data.find(item => item.path === '/docs')?.children || []

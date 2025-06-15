@@ -57,4 +57,8 @@ export default defineNuxtConfig({
       }
     }
   }
+
+  // image: {
+  //   domains: ['projectm-visualizer.org']
+  // }
 })
