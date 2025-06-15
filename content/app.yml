@@ -1,0 +1,72 @@
+links:
+  - label: Docs
+    icon: i-lucide-book
+    to: /docs
+    children:
+      - label: User Guide
+        icon: i-lucide-book-text
+        description: Get started with our user-friendly guide.
+        to: /docs/user
+        disabled: false
+      - label: Developer Guide
+        icon: i-lucide-code-xml
+        description: Dive into our developer documentation.
+        to: /docs/developer
+        disabled: false
+    disabled: false
+  - label: Download
+    icon: i-lucide-download
+    to: /download
+    disabled: true
+  - label: Projects
+    icon: i-lucide-folder-root
+    to: /projects
+    disabled: true
+  - label: Blog
+    icon: i-lucide-pencil
+    to: /blog
+    disabled: true
+  - label: GitHub
+    icon: i-simple-icons-github
+    to: https://github.com/projectm-visualizer
+    target: '_blank'
+header:
+  logo:
+      to: /
+  enableColorModeButton: true
+  # customButtons:
+  #     - label:
+  #       icon:
+  #       to:
+  #       target: _blank
+footer:
+  copyright: Copyright © 2025 ProjectM Visualizer. All rights reserved.
+  links:
+      - label: Privacy Policy
+        to: /privacy-policy
+        target: _blank
+      - label: Terms of Service
+        to: /terms-of-service
+        target: _blank
+  socialButtons:
+      - ariaLabel: Youtube
+        icon: i-simple-icons-youtube
+        to: https://www.youtube.com/@projectm-visualizer
+        target: _blank
+      - ariaLabel: Mastodon
+        icon: i-simple-icons-mastodon
+        to: https://fosstodon.org/@projectm-visualizer
+        target: _blank
+      - ariaLabel: X
+        icon: i-simple-icons-x
+        to: https://twitter.com/projectm-visualizer
+        target: _blank
+      - ariaLabel: Discord
+        icon: i-simple-icons-discord
+        to: https://discord.gg/projectm-visualizer
+        target: _blank
+      - ariaLabel: GitHub
+        icon: i-simple-icons-github
+        to: https://github.com/projectm-visualizer
+        target: _blank
+

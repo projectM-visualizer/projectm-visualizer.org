@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [22]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Cache bun
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun
+            ~/.cache/bun
+            node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lockb') }}
+          restore-keys: |
+            bun-${{ runner.os }}-
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Generate reports
+        run: bun run generate-reports
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NUXT_PUBLIC_ASSET_KEY: ${{ secrets.NUXT_PUBLIC_ASSET_KEY }}
+
+      - name: Push assets
+        run: bun run ftp:assets:push
+        env:
+          REMOTE_CONNECTION: ${{ secrets.REMOTE_CONNECTION }}
+
+      - name: Build
+        run: bun run generate
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
+          NUXT_PUBLIC_SITE_URL: ${{ secrets.NUXT_PUBLIC_SITE_URL }}
+          NUXT_PUBLIC_ASSET_KEY: ${{ secrets.NUXT_PUBLIC_ASSET_KEY }}
+
+      - name: Package
+        run: |
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+
+          cd dist
+          tar -czvf ../$PACKAGE_NAME-$PACKAGE_VERSION.tar.gz .
+          zip -r ../$PACKAGE_NAME-$PACKAGE_VERSION.zip .
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: bun release
+
+      - name: Deploy
+        run: bun run ftp:site:push
+        env:
+          REMOTE_CONNECTION: ${{ secrets.REMOTE_CONNECTION }}

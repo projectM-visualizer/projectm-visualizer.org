@@ -1,0 +1,68 @@
+title: Visualize your Music your way
+description: A real-time music visualizer that transforms your audio into stunning, responsive visuals. From bass drops to melodies, experience your music like never before.
+seo:
+  title: Visualize your Music your way
+  description: A real-time music visualizer that transforms your audio into stunning, responsive visuals. From bass drops to melodies, experience your music like never before.
+navigation: false
+
+hero:
+  title: Feel the Music. See the Sound.
+  description: A real-time music visualizer that transforms your audio into stunning, responsive visuals. From bass drops to melodies, experience your music like never before.
+  headline: Turn Every Beat into a Spectacle
+  links:
+    - label: Download
+      icon: i-lucide-download
+      to: /download
+      disabled: false
+    - label: Docs
+      icon: i-lucide-book-text
+      to: /docs/user
+      color: neutral
+      variant: subtle
+      trailingIcon: i-lucide-arrow-right
+  orientation: vertical
+  video:
+    src: /assets/videos/hero-1_720p.mp4
+    srcMobile: /assets/videos/hero-1_480p.mp4
+    poster:
+    fluid: true
+    autoplay: true
+    loop: true
+    muted: true
+    controls: true
+    volume: 0.6
+
+projects:
+  reverse: false
+  orientation: vertical
+  icon: i-lucide-folder-root
+  title: Our Popular Projects
+  description: Explore our most popular open-source projects that help developers build better applications.
+  itemsToShow: 6
+  sortBy: stars
+  # featured:
+  #   - projectm
+
+contributors:
+  pauseOnHover: true
+  repeatCount: 2
+
+about:
+  reverse: false
+  orientation: horizontal
+  icon: i-lucide-equal-approximately
+  title: About Us
+  summary:
+    - ProjectM is an open-source, cross-platform music visualization software library designed to replicate the behavior and aesthetic of the well-known MilkDrop plugin originally developed for Winamp by Ryan Geiss. MilkDrop was notable for allowing user-created visualization scripts or “presets,” which generated real-time, beat-synced visual effects based on audio input.
+    - To offer MilkDrop-style visualizations on non-Windows systems and in open-source environments, projectM was initiated in 2003 and released in 2004 under the LGPL v2.1 license. Its core component is libprojectM, a C++ library that renders visualizations by processing audio signals using FFT and other techniques, and applies MilkDrop-compatible scripts to generate graphics using OpenGL.
+  image:
+    src: /assets/images/about-cover.png
+    alt: Visual Representation of Music
+
+connect:
+  reverse: true
+  orientation: horizontal
+  icon: i-lucide-spline
+  title: Connect With Us
+  description: Have questions or feedback? We'd love to hear from you!
+  discordWidgetId: "737206408482914387"
