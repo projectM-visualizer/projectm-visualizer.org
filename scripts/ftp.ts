@@ -4,6 +4,7 @@
 //     - "pull" or "push" (action to perform)
 //     - "assets" or "site" (type of files to transfer)
 //   - options:
+//     - "--force, -f" (force upload even if files exist)
 //     - "--localAssetsPath, -l" (local path for assets, default: 'public/assets')
 //     - "--remoteAssetsPath, -r" (remote path for assets, default: '/projectm-visualizer.org/assets')
 //     - "--localSitePath, -s" (local path for site files, default: '.output/public')
@@ -51,6 +52,7 @@ function parseArgs() {
   const args = Bun.argv.slice(2)
   const action = args[0]
   const type = args[1]
+  const force = args.includes('--force') || args.includes('-f')
   const localAssetsPath = getArgValue(args, '--localAssetsPath', '-l', LOCAL_ASSETS_PATH)
   const remoteAssetsPath = getArgValue(args, '--remoteAssetsPath', '-r', REMOTE_ASSETS_PATH)
   const localSitePath = getArgValue(args, '--localSitePath', '-s', LOCAL_SITE_PATH)
@@ -76,6 +78,7 @@ function parseArgs() {
   return {
     action: action as Action,
     type: type as Type,
+    force,
     paths: {
       assets: {
         local: localAssetsPath as string,
@@ -127,7 +130,7 @@ async function disconnectFromRemote() {
 
 // ---------- Smart Upload ----------
 
-async function smartUploadDir(localDir: string, remoteDir: string) {
+async function smartUploadDir(localDir: string, remoteDir: string, force: boolean) {
   const entries = readdirSync(localDir, { withFileTypes: true })
   await client.ensureDir(remoteDir)
 
@@ -139,9 +142,9 @@ async function smartUploadDir(localDir: string, remoteDir: string) {
     const remotePath = `${remoteDir}/${entry.name}`
 
     if (entry.isDirectory()) {
-      await smartUploadDir(localPath, remotePath)
+      await smartUploadDir(localPath, remotePath, force)
     } else {
-      if (remoteNames.has(entry.name)) {
+      if (remoteNames.has(entry.name) && !force) {
         console.log(`⏭️  Skipping (exists): ${remotePath}`)
         continue
       }
@@ -169,13 +172,13 @@ async function pull(remoteConnection: RemoteConnection, type: Type, paths: Paths
   }
 }
 
-async function push(remoteConnection: RemoteConnection, type: Type, paths: Paths) {
+async function push(remoteConnection: RemoteConnection, type: Type, paths: Paths, force: boolean) {
   const { local, remote } = paths[type]
 
   try {
     await connectToRemote(remoteConnection)
     console.log(`⬆️  Pushing ${type} from ${local} to ${remote}...`)
-    await smartUploadDir(local, remote)
+    await smartUploadDir(local, remote, force)
     console.log(`✅ Pushed ${type} successfully.`)
   } catch (error) {
     console.error(`❌ Error pushing ${type}:`, error instanceof Error ? error.message : String(error))
@@ -188,14 +191,14 @@ async function push(remoteConnection: RemoteConnection, type: Type, paths: Paths
 
 async function main() {
   try {
-    const { action, type, paths, remoteConnection } = parseArgs()
+    const { action, type, force, paths, remoteConnection } = parseArgs()
 
     console.log(`🚀 Starting ${action} for ${type}...`)
 
     if (action === 'pull') {
       await pull(remoteConnection, type, paths)
     } else {
-      await push(remoteConnection, type, paths)
+      await push(remoteConnection, type, paths, force)
     }
   } catch (err) {
     console.error(err instanceof Error ? err.message : String(err))

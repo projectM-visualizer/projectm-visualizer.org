@@ -15,7 +15,6 @@
     "release": "semantic-release",
     "prepare:git-hooks": "simple-git-hooks",
     "prepare": "bun prepare:git-hooks",
-
     "ftp:assets:pull": "bun run ./scripts/ftp.ts pull assets",
     "ftp:assets:push": "bun run ./scripts/ftp.ts push assets",
     "ftp:site:pull": "bun run ./scripts/ftp.ts pull site",
@@ -35,6 +34,7 @@
     "@standard-schema/spec": "^1.0.0",
     "@videojs-player/vue": "^1.0.0",
     "@vueuse/nuxt": "^13.3.0",
+    "better-sqlite3": "^11.10.0",
     "nuxt": "^3.17.5",
     "nuxt-og-image": "^5.1.6",
     "pinia": "^3.0.3",
@@ -59,6 +59,7 @@
     "vue-tsc": "^2.2.10"
   },
   "trustedDependencies": [
+    "better-sqlite3",
     "@parcel/watcher",
     "@tailwindcss/oxide",
     "unrs-resolver"
@@ -94,10 +95,7 @@
       [
         "@semantic-release/github",
         {
-          "assets": [
-            "projectm-visualizer.org-*.zip",
-            "projectm-visualizer.org-*.tar.gz"
-          ]
+          "assets": []
         }
       ]
     ]

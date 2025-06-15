@@ -73,6 +73,6 @@ jobs:
         run: bun release
 
       - name: Deploy
-        run: bun run ftp:site:push
+        run: bun run ftp:site:push --force
         env:
           REMOTE_CONNECTION: ${{ secrets.REMOTE_CONNECTION }}
