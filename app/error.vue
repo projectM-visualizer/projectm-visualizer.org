@@ -14,9 +14,11 @@ useHead({
   }
 })
 
+const { data: app } = await useAsyncData('app-error', () => queryCollection('app').first())
+
 useSeoMeta({
-  title: 'Page not found',
-  description: 'We are sorry but this page could not be found.'
+  title: app.value?.error.title || 'Page not found',
+  description: app.value?.error.description || 'We are sorry but this page could not be found.'
 })
 
 const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
@@ -25,20 +27,6 @@ const { data: navigation } = await useAsyncData('navigation', () => queryCollect
 const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
   server: false
 })
-
-const links = [{
-  label: 'Docs',
-  icon: 'i-lucide-book',
-  to: '/docs/getting-started'
-}, {
-  label: 'Pricing',
-  icon: 'i-lucide-credit-card',
-  to: '/pricing'
-}, {
-  label: 'Blog',
-  icon: 'i-lucide-pencil',
-  to: '/blog'
-}]
 </script>
 
 <template>
@@ -60,7 +48,7 @@ const links = [{
         :files="files"
         shortcut="meta_k"
         :navigation="navigation"
-        :links="links"
+        :links="app?.links"
         :fuse="{ resultLimit: 42 }"
       />
     </ClientOnly>

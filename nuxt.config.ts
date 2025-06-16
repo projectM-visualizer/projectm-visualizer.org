@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/docs': { redirect: '/docs/getting-started', prerender: false }
+    '/docs': { redirect: '/docs/user', prerender: false }
   },
 
   future: {

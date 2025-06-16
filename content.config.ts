@@ -70,6 +70,7 @@ const collections = {
     source: 'app.yml',
     schema: z.object({
       links: z.array(createLinkSchema()).optional(),
+      error: createBaseSchema(),
       header: z.object({
         logo: z.object({
           to: z.string()

@@ -3,12 +3,12 @@ links:
     icon: i-lucide-book
     to: /docs
     children:
-      - label: User Guide
+      - label: User
         icon: i-lucide-book-text
         description: Get started with our user-friendly guide.
         to: /docs/user
         disabled: false
-      - label: Developer Guide
+      - label: Developer
         icon: i-lucide-code-xml
         description: Dive into our developer documentation.
         to: /docs/developer
@@ -30,6 +30,9 @@ links:
     icon: i-simple-icons-github
     to: https://github.com/projectm-visualizer
     target: '_blank'
+error:
+  title: Page not found
+  description: We are sorry but this page could not be found.
 header:
   logo:
       to: /
@@ -69,4 +72,3 @@ footer:
         icon: i-simple-icons-github
         to: https://github.com/projectm-visualizer
         target: _blank
-
