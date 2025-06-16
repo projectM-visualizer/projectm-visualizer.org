@@ -1,4 +1,6 @@
+navigation.icon: i-lucide-newspaper
 icon: i-lucide-newspaper
 title: Blog
 description: Latest articles and updates
-navigation.icon: i-lucide-newspaper
+seo:
+  # image: /images/blog/seo-image.jpg

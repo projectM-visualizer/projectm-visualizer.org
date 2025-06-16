@@ -14,8 +14,11 @@ useSeoMeta({
   ogDescription: description
 })
 
-// TODO: Figure out OgImage component usage in static builds
-// if (import.meta.client) defineOgImageComponent('myOgImage')
+if (page.value?.seo.image) {
+  defineOgImage({
+    url: page.value.seo.image as string
+  })
+}
 </script>
 
 <template>

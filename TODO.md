@@ -3,9 +3,6 @@
 ## Site Finalization
 
 - [ ] Figure out legal policies
-- [ ] Logo needs fixed (replace text with svg to fix it)
-- [ ] Seo for entire site
-- [ ] Expand ftp script to push data,images,videos separately
 
 ## Rebrand
 

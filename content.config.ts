@@ -158,7 +158,9 @@ const collections = {
   blog: defineCollection({
     type: 'page',
     source: '4.blog.yml',
-    schema: z.object({})
+    schema: createBaseSchema().extend({
+      image: createImageSchema().optional()
+    })
   }),
   posts: defineCollection({
     type: 'page',
