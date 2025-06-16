@@ -34,6 +34,10 @@ const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSe
 const { data: app } = await useAsyncData('links', () => queryCollection('app').first())
 
 provide('navigation', navigation)
+
+const dataStore = useDataStore()
+await dataStore.fetchProjects()
+await dataStore.fetchContributors()
 </script>
 
 <template>

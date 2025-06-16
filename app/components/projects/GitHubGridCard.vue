@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type { ProjectExportItem } from '#shared/utils/useProjects'
+import type { Project } from '#shared/types/projects'
 
-export interface GitHubGridCardProps extends ProjectExportItem {
+export interface GitHubGridCardProps extends Project {
   spotlight?: boolean
   spotlightClass?: HTMLAttributes['class']
 }
@@ -24,8 +24,8 @@ const props = defineProps<GitHubGridCardProps>()
     <template #body>
       <UUser
         :name="useStyleName(props.name)"
-        :description="props.description"
-        :avatar="{ src: props.owner.src, alt: props.owner.alt }"
+        :description="props.description || undefined"
+        :avatar="props.owner"
         class="relative"
         orientation="horizontal"
         :ui="{

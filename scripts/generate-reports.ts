@@ -170,6 +170,64 @@ async function enrichWithTopics(owner: string, repos: Repository[], headers: Rec
   return enriched
 }
 
+// ---------- Releases ----------
+
+type Release = {
+  url: string
+  tag_name: string
+  name: string
+  body: string
+  draft: boolean
+  prerelease: boolean
+  created_at: string
+  published_at: string
+  html_url: string
+  assets: {
+    name: string
+    browser_download_url: string
+    content_type: string
+    size: number
+    download_count: number
+  }[]
+}
+
+async function getLatestRelease(owner: string, repo: string, headers: Record<string, string>): Promise<Release | null> {
+  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, { headers })
+  if (!response.ok) {
+    if (response.status === 404) return null
+    throw new Error(`Failed to fetch latest release for ${repo}: ${response.statusText}`)
+  }
+
+  return response.json()
+}
+
+async function enrichWithReleases(owner: string, repos: Repository[], headers: Record<string, string>) {
+  for (const repo of repos) {
+    try {
+      const release = await getLatestRelease(owner, repo.name, headers)
+      if (release) {
+        repo.latest_release = {
+          tag: release.tag_name,
+          name: release.name,
+          published_at: release.published_at,
+          url: release.html_url,
+          assets: release.assets.map(a => ({
+            name: a.name,
+            url: a.browser_download_url,
+            type: a.content_type,
+            size: a.size,
+            downloads: a.download_count
+          }))
+        }
+      }
+    } catch (error) {
+      console.warn(`⚠️  Skipping release for ${repo.name}: ${(error as Error).message}`)
+    }
+  }
+
+  return repos
+}
+
 // ---------- Encryption ----------
 
 async function encryptContent(encryptionKey: string, content: string): Promise<Uint8Array> {
@@ -214,8 +272,10 @@ async function main() {
 
   console.log(`🏷️  Enriching ${repos.length} repositories with topics...`)
   const enrichedRepos = await enrichWithTopics(owner, repos, headers)
+  console.log(`🏷️  Enriching ${enrichedRepos.length} repositories with latest releases...`)
+  const enrichedReleases = await enrichWithReleases(owner, enrichedRepos, headers)
   const projectsOutput = encrypt
-    ? await encryptContent(encryptionKey, JSON.stringify(enrichedRepos, null, 2))
+    ? await encryptContent(encryptionKey, JSON.stringify(enrichedReleases, null, 2))
     : JSON.stringify(enrichedRepos, null, 2)
   const projectsFile = encrypt ? `${output}/projects.dat` : `${output}/projects.json`
   await Bun.write(projectsFile, projectsOutput, { createPath: true })

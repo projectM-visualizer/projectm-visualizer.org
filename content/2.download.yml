@@ -11,12 +11,34 @@ download:
   icon: i-lucide-folder-root
   title: Download
   description: Find the latest releases of our software and tools.
-  features:
-    - title: Applications
-      description: Download our software packages.
-      icon: i-lucide-package
-      link: /download/application
-    - title: Library
-      description: Download our command-line tools.
-      icon: i-lucide-terminal
-      link: /download/library
+  items:
+    - icon: i-simple-icons:windows
+      title: Windows
+      description: Download the latest version for Windows.
+      items:
+        - icon: i-lucide-download
+          label: Application
+          repoName: REPLACE_ME
+        - icon: i-lucide-download
+          label: Library
+          repoName: projectm
+    - icon: i-simple-icons:linux
+      title: Linux
+      description: Download the latest version for Linux.
+      items:
+        - icon: i-lucide-download
+          label: Application
+          repoName: REPLACE_ME
+        - icon: i-lucide-download
+          label: Library
+          repoName: projectm
+    - icon: i-simple-icons:apple
+      title: macOS
+      description: Download the latest version for macOS.
+      items:
+        - icon: i-lucide-download
+          label: Application
+          repoName: REPLACE_ME
+        - icon: i-lucide-download
+          label: Library
+          repoName: projectm

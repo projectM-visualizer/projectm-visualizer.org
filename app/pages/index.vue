@@ -3,6 +3,7 @@ import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
 
 const { data: page } = await useAsyncData('page-index', () => queryCollection('index').first())
+const dataStore = useDataStore()
 
 const title = page.value?.seo?.title || page.value?.title
 const description = page.value?.seo?.description || page.value?.description
@@ -19,8 +20,8 @@ const { isMobile } = useDevice()
 
 const videoReady = ref(false)
 
-const projects = ref<ProjectExportItem[]>([])
-const contributors = ref<ContributorItem[]>([])
+const projects = ref<Project[]>([])
+const contributors = ref<Contributor[]>([])
 
 const loadingProjects = ref(true)
 const loadingContributors = ref(true)
@@ -49,15 +50,11 @@ onMounted(async () => {
   isClient.value = true
 
   try {
-    const projectData = await useProjects({
+    projects.value = dataStore.getProjects({
       itemsToShow: page.value?.projects?.itemsToShow || 6,
       featured: page.value?.projects?.featured || [],
       sortBy: page.value?.projects?.sortBy || 'stars'
     })
-
-    projects.value = projectData
-
-    console.log('Projects loaded:', projects.value)
 
     await new Promise(resolve => setTimeout(resolve, 300))
   } catch (error) {
@@ -71,9 +68,7 @@ onMounted(async () => {
   }
 
   try {
-    const contributorData = await useContributors()
-
-    contributors.value = contributorData
+    contributors.value = dataStore.getContributors()
 
     await new Promise(resolve => setTimeout(resolve, 300))
   } catch (error) {
@@ -156,16 +151,15 @@ onMounted(async () => {
           <NuxtLink
             v-for="item in batchOne"
             :key="item.id"
-            :to="item.html_url"
+            :to="item.to"
             target="_blank"
             class="flex items-center"
           >
             <UAvatar
-              :src="item.avatar_url"
-              :alt="item.login"
+              v-bind="item.avatar"
               class="mr-2"
             />
-            <span>{{ item.login }}</span>
+            <span>{{ item.avatar?.alt }}</span>
           </NuxtLink>
         </template>
 
@@ -193,16 +187,15 @@ onMounted(async () => {
           <NuxtLink
             v-for="item in batchTwo"
             :key="item.id"
-            :to="item.html_url"
+            :to="item.to"
             target="_blank"
             class="flex items-center"
           >
             <UAvatar
-              :src="item.avatar_url"
-              :alt="item.login"
+              v-bind="item.avatar"
               class="mr-2"
             />
-            <span>{{ item.login }}</span>
+            <span>{{ item.avatar?.alt }}</span>
           </NuxtLink>
         </template>
 

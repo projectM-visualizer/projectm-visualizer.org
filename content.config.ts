@@ -48,6 +48,22 @@ const createVideoSchema = () => z.object({
   volume: z.number().optional()
 })
 
+const createDownloadItemSchema = () => z.object({
+  icon: z.string().optional(),
+  label: z.string().nonempty(),
+  repoName: z.string().nonempty(),
+  downloadUrl: z.string().nonempty(),
+  version: z.string().optional(),
+  releaseDate: z.string().optional()
+})
+
+const createDownloadPlatformSchema = () => z.object({
+  icon: z.string().optional(),
+  title: z.string().nonempty(),
+  description: z.string().optional(),
+  items: z.array(createDownloadItemSchema()).optional()
+})
+
 const collections = {
   app: defineCollection({
     type: 'data',
@@ -118,7 +134,8 @@ const collections = {
       download: createBaseSchema().extend({
         reverse: z.boolean().optional(),
         orientation: z.enum(orientationEnum).optional(),
-        icon: z.string().optional()
+        icon: z.string().optional(),
+        items: z.array(createDownloadPlatformSchema()).optional()
       }).optional()
     })
   }),

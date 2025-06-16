@@ -17,7 +17,7 @@ const { data: app } = await useAsyncData('app-footer', () => queryCollection('ap
 <template>
   <UFooter v-if="app?.footer">
     <template #left>
-      <p class="text-muted text-sm">
+      <p class="text-muted text-sm text-center max-w-[256px] sm:max-w-none">
         {{ app?.footer.copyright }}
       </p>
     </template>

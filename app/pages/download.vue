@@ -19,10 +19,21 @@ useSeoMeta({
       v-if="page.download"
       v-bind="page.download"
       :ui="{
-        container: 'pb-8 sm:pb-12 lg:pb-20'
+        container: 'pb-8 sm:pb-12 lg:pb-20 flex-col',
+        features: 'flex'
       }"
     >
-      <!--  -->
+      <template #features>
+        <UPageCard
+          variant="subtle"
+          class="rounded-2xl shadow-2xl flex-1"
+        >
+          <DownloadDownloadsGrid
+            v-if="page.download.items"
+            :items="page.download.items"
+          />
+        </UPageCard>
+      </template>
     </UPageSection>
   </div>
 </template>
