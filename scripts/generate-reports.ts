@@ -4,7 +4,8 @@
 //   - options:
 //     - "--encrypt, -e" (encrypt data before saving to files)
 //     - "--encryptionKey, -k" (encryption key for data encryption)
-//     - "--output, -o" (output directory for reports, default: 'public/data')
+//     - "--outputData, -d" (output directory for reports, default: 'public/data')
+//     - "--outputAvatars, -a" (output directory for avatars, default: 'public/images/avatars')
 //     - "--owner, -o" (GitHub owner name, default: 'projectm-visualizer')
 //     - "--token, -t" (GitHub token for authentication)
 
@@ -13,7 +14,8 @@ import Bun from 'bun'
 // ---------- Config & Constants ----------
 
 const OWNER = 'projectm-visualizer'
-const OUTPUT_DIR = 'public/assets/data'
+const OUTPUT_DATA_DIR = 'public/assets/data'
+const OUTPUT_AVATAR_DIR = 'public/assets/images/avatars'
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 const ENCRYPTION_KEY = process.env.NUXT_PUBLIC_ASSET_KEY
 
@@ -30,7 +32,8 @@ function parseArgs() {
   const args = Bun.argv.slice(2)
   const encrypt = args.includes('--encrypt') || args.includes('-e')
   const encryptionKey = getArgValue(args, '--encryptionKey', '-k', ENCRYPTION_KEY)
-  const outputDir = getArgValue(args, '--output', '-o', OUTPUT_DIR)
+  const outputDataDir = getArgValue(args, '--outputData', '-d', OUTPUT_DATA_DIR)
+  const outputAvatarDir = getArgValue(args, '--outputAvatars', '-a', OUTPUT_AVATAR_DIR)
   const owner = getArgValue(args, '--owner', '-n', OWNER)
   const token = getArgValue(args, '--token', '-t', GITHUB_TOKEN)
 
@@ -47,7 +50,8 @@ function parseArgs() {
   return {
     encrypt,
     encryptionKey: encryptionKey as string,
-    output: outputDir as string,
+    outputDataDir: outputDataDir as string,
+    outputAvatarDir: outputAvatarDir as string,
     owner: owner as string,
     token
   }
@@ -106,6 +110,76 @@ async function getAllContributors(owner: string, repoNames: string[], headers: R
   }
 
   return Array.from(allContributors.values())
+}
+
+// ---------- Avatar Downloader ----------
+
+async function downloadOwnerAvatar(owner: string, headers: Record<string, string>, dir: string): Promise<{ login: string, avatar_url: string } | null | null> {
+  const response = await fetch(`https://api.github.com/users/${owner}`, { headers })
+  if (!response.ok) {
+    console.warn(`⚠️  Failed to fetch owner avatar for ${owner}: ${response.statusText}`)
+    return null
+  }
+
+  const user: Contributor = await response.json()
+  const filePath = `${dir}/owner.jpg`
+  const metaPath = filePath.replace('public', '')
+
+  try {
+    const exists = await Bun.file(filePath).exists()
+    if (!exists) {
+      const res = await fetch(user.avatar_url)
+      if (!res.ok) throw new Error(`Failed to fetch owner avatar for ${user.login}`)
+      const buffer = await res.arrayBuffer()
+      await Bun.write(filePath, new Uint8Array(buffer), { createPath: true })
+      console.log(`🖼️  Saved owner avatar: ${user.login} → ${filePath}`)
+    } else {
+      console.log(`🖼️  Owner avatar already exists: ${user.login} → ${filePath}`)
+    }
+
+    return { login: user.login, avatar_url: metaPath }
+  } catch (err) {
+    console.warn(`⚠️  Failed to download owner avatar for ${user.login}: ${(err as Error).message}`)
+    return null
+  }
+}
+
+async function downloadAvatars(contributors: Contributor[], dir: string): Promise<Contributor[]> {
+  const updatedContributors: Contributor[] = []
+
+  for (const contributor of contributors) {
+    const filePath = `${dir}/${contributor.id}.jpg`
+    const metaPath = filePath.replace('public', '')
+
+    try {
+      const exists = await Bun.file(filePath).exists()
+      if (exists) {
+        updatedContributors.push({
+          ...contributor,
+          avatar_url: metaPath
+        })
+
+        console.log(`🖼️  Avatar already exists: ${contributor.login} → ${filePath}`)
+
+        continue
+      }
+
+      const res = await fetch(contributor.avatar_url)
+      if (!res.ok) throw new Error(`Failed to fetch avatar for ${contributor.login}`)
+
+      const buffer = await res.arrayBuffer()
+      await Bun.write(filePath, new Uint8Array(buffer), { createPath: true })
+      updatedContributors.push({
+        ...contributor,
+        avatar_url: metaPath
+      })
+      console.log(`🖼️  Saved avatar: ${contributor.login} → ${filePath}`)
+    } catch (err) {
+      console.warn(`⚠️  Failed to download avatar for ${contributor.login}: ${(err as Error).message}`)
+    }
+  }
+
+  return updatedContributors
 }
 
 // ---------- Projects ----------
@@ -258,7 +332,7 @@ async function encryptContent(encryptionKey: string, content: string): Promise<U
 // ---------- Main ----------
 
 async function main() {
-  const { encrypt, encryptionKey, output, owner, token } = parseArgs()
+  const { encrypt, encryptionKey, outputDataDir, outputAvatarDir, owner, token } = parseArgs()
 
   const headers = {
     'Accept': 'application/vnd.github+json',
@@ -270,25 +344,36 @@ async function main() {
   const repos = await getAllRepos(owner, headers)
   const repoNames = repos.map(repo => repo.name)
 
+  console.log(`🔍 Collecting contributors from all repos...`)
+  const contributors = await getAllContributors(owner, repoNames, headers)
+  const contributorsWithAvatars = await downloadAvatars(contributors, outputAvatarDir)
+  const contributorsOutput = encrypt
+    ? await encryptContent(encryptionKey, JSON.stringify(contributorsWithAvatars, null, 2))
+    : JSON.stringify(contributorsWithAvatars, null, 2)
+  const contributorsFile = encrypt ? `${outputDataDir}/contributors.json.aes` : `${outputDataDir}/contributors.json`
+  await Bun.write(contributorsFile, contributorsOutput, { createPath: true })
+  console.log(`✅ Saved ${contributors.length} unique contributors → ${contributorsFile}`)
+
+  console.log(`🖼️  Downloading owner avatar for ${owner}...`)
+  const ownerInfo = await downloadOwnerAvatar(owner, headers, outputAvatarDir)
   console.log(`🏷️  Enriching ${repos.length} repositories with topics...`)
   const enrichedRepos = await enrichWithTopics(owner, repos, headers)
   console.log(`🏷️  Enriching ${enrichedRepos.length} repositories with latest releases...`)
   const enrichedReleases = await enrichWithReleases(owner, enrichedRepos, headers)
+  if (ownerInfo) {
+    for (const repo of enrichedRepos) {
+      repo.owner = {
+        login: ownerInfo.login,
+        avatar_url: ownerInfo.avatar_url
+      }
+    }
+  }
   const projectsOutput = encrypt
     ? await encryptContent(encryptionKey, JSON.stringify(enrichedReleases, null, 2))
     : JSON.stringify(enrichedRepos, null, 2)
-  const projectsFile = encrypt ? `${output}/projects.json.aes` : `${output}/projects.json`
+  const projectsFile = encrypt ? `${outputDataDir}/projects.json.aes` : `${outputDataDir}/projects.json`
   await Bun.write(projectsFile, projectsOutput, { createPath: true })
   console.log(`✅ Saved ${enrichedRepos.length} repositories → ${projectsFile}`)
-
-  console.log(`🔍 Collecting contributors from all repos...`)
-  const contributors = await getAllContributors(owner, repoNames, headers)
-  const contributorsOutput = encrypt
-    ? await encryptContent(encryptionKey, JSON.stringify(contributors, null, 2))
-    : JSON.stringify(contributors, null, 2)
-  const contributorsFile = encrypt ? `${output}/contributors.json.aes` : `${output}/contributors.json`
-  await Bun.write(contributorsFile, contributorsOutput, { createPath: true })
-  console.log(`✅ Saved ${contributors.length} unique contributors → ${contributorsFile}`)
 
   console.log(`🎉 Report generation completed successfully.`)
 }

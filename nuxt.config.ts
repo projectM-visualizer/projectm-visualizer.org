@@ -56,9 +56,50 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
-  }
+  },
 
   // image: {
   //   domains: ['projectm-visualizer.org']
-  // }
+  // },
+
+  icon: {
+    provider: 'none',
+    serverBundle: false,
+    clientBundle: {
+      scan: true,
+      icons: [
+        'lucide:menu',
+        'lucide:chevron-down',
+        'lucide:arrow-up-right',
+        'lucide:arrow-right',
+        'lucide:x',
+        'lucide:hash',
+        'lucide:sun',
+        'lucide:moon',
+        'lucide:book',
+        'lucide:book-open',
+        'lucide:book-text',
+        'lucide:code-xml',
+        'lucide:credit-card',
+        'lucide:download',
+        'lucide:equal-approximately',
+        'lucide:folder-root',
+        'lucide:git-fork',
+        'lucide:newspaper',
+        'lucide:pencil',
+        'lucide:spline',
+        'lucide:star',
+        'simple-icons:apple',
+        'simple-icons:codesandbox',
+        'simple-icons:discord',
+        'simple-icons:github',
+        'simple-icons:linux',
+        'simple-icons:mastodon',
+        'simple-icons:stackblitz',
+        'simple-icons:windows',
+        'simple-icons:x',
+        'simple-icons:youtube'
+      ]
+    }
+  }
 })

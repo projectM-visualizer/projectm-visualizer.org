@@ -27,5 +27,6 @@ logs
 .history
 
 # Project
+.private
 public/assets
-TODO.md
+package-lock.json

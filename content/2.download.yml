@@ -12,7 +12,7 @@ download:
   title: Download
   description: Find the latest releases of our software and tools.
   items:
-    - icon: i-simple-icons:windows
+    - icon: i-simple-icons-windows
       title: Windows
       description: Download the latest version for Windows.
       items:
@@ -22,7 +22,7 @@ download:
         - icon: i-lucide-download
           label: Library
           repoName: projectm
-    - icon: i-simple-icons:linux
+    - icon: i-simple-icons-linux
       title: Linux
       description: Download the latest version for Linux.
       items:
@@ -32,7 +32,7 @@ download:
         - icon: i-lucide-download
           label: Library
           repoName: projectm
-    - icon: i-simple-icons:apple
+    - icon: i-simple-icons-apple
       title: macOS
       description: Download the latest version for macOS.
       items:

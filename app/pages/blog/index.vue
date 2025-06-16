@@ -14,6 +14,7 @@ useSeoMeta({
   ogDescription: description
 })
 
+// TODO: Figure out OgImage component usage in static builds
 if (import.meta.client) defineOgImageComponent('myOgImage')
 </script>
 
@@ -33,7 +34,7 @@ if (import.meta.client) defineOgImageComponent('myOgImage')
           :icon="post.icon"
           :title="post.title"
           :description="post.description"
-          :image="post.image"
+          :image="{ src: useRuntimeConfig().public.siteUrl + post.image.src }"
           :date="new Date(post.date).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })"
           :authors="post.authors"
           :badge="post.badge"

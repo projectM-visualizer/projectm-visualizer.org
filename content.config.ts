@@ -119,7 +119,8 @@ const collections = {
         reverse: z.boolean().optional(),
         orientation: z.enum(orientationEnum).optional(),
         icon: z.string().optional(),
-        discordWidgetId: z.string().optional()
+        image: createImageSchema().optional(),
+        button: createButtonSchema().optional()
       }).optional()
     })
   }),

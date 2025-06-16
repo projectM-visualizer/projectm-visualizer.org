@@ -37,18 +37,7 @@ const batchTwo = computed(() => {
   return contributors.value.slice(mid)
 })
 
-const discordWidgetSrc = computed(() => {
-  const widgetId = page.value?.connect?.discordWidgetId
-  const color = useColorMode().value === 'dark' ? 'light' : 'dark'
-
-  return widgetId ? `https://discord.com/widget?id=${widgetId}&theme=${color}` : undefined
-})
-
-const isClient = ref(false)
-
 onMounted(async () => {
-  isClient.value = true
-
   try {
     projects.value = dataStore.getProjects({
       itemsToShow: page.value?.projects?.itemsToShow || 6,
@@ -250,17 +239,35 @@ onMounted(async () => {
     <UPageSection
       v-if="page.connect"
       v-bind="page.connect"
+      :ui="{
+        features: 'block'
+      }"
     >
-      <div class="w-full h-[524px] rounded-lg shadow-2xl ring ring-default overflow-hidden relative">
-        <USkeleton class="absolute inset-0 w-full h-full z-0" />
+      <template #features>
+        <UButton
+          v-if="page.connect.button"
+          v-bind="page.connect.button"
+          class="bg-[#5865F2]"
+          color="neutral"
+          variant="subtle"
+          size="xl"
+        />
+      </template>
 
-        <iframe
-          v-if="isClient && discordWidgetSrc"
-          :src="discordWidgetSrc"
-          allowtransparency="true"
-          frameborder="0"
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-          class="absolute inset-0 w-full h-full z-10 transition-opacity duration-300"
+      <div
+        class="w-full h-[524px] rounded-lg shadow-2xl ring ring-default overflow-hidden relative flex items-center justify-center"
+      >
+        <NuxtImg
+          v-if="page.connect.image && page.connect.image.src"
+          :src="useRuntimeConfig().public.siteUrl + page.connect.image.src"
+          :srcset="useRuntimeConfig().public.siteUrl + page.connect.image.src"
+          :alt="page.connect.image.alt"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+
+        <USkeleton
+          v-else
+          class="absolute inset-0 w-full h-full"
         />
       </div>
     </UPageSection>

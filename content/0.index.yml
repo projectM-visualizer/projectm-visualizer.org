@@ -65,4 +65,11 @@ connect:
   icon: i-lucide-spline
   title: Connect With Us
   description: Have questions or feedback? We'd love to hear from you!
-  discordWidgetId: "737206408482914387"
+  image:
+    src: /assets/images/connect-cover.jpg
+    alt: Discord Community
+  button:
+    label: Join our Discord
+    icon: i-simple-icons-discord
+    to: https://discord.gg/mMrxAqaa3W
+    target: _blank
