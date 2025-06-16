@@ -10,11 +10,15 @@ import { readdirSync, statSync } from 'node:fs'
 
 // ---------- Config & Constants ----------
 
-// const NUXT_CONFIG_FILE = 'nuxt.config.ts'
+const NUXT_CONFIG_FILE = 'nuxt.config.ts'
 // Match only icons that start with "i-" and follow the pattern: i-[namespace]-[icon-name]
-const ICON_REGEX = /\bi-([\w]+-[\w-]+)\b/g
+const ICON_REGEX = /\bi-([a-zA-Z0-9_-]+)\b/g
 const VALID_EXTENSIONS = ['.yml', '.yaml', '.json', '.md', '.vue', '.ts']
 const DIRS = ['./app', './content', './shared']
+const ICON_COLLECTIONS = [
+  'lucide',
+  'simple-icons'
+]
 
 // ---------- Arg Parser ----------
 
@@ -71,39 +75,58 @@ async function scanDirRecursively(dir: string, icons: Set<string>) {
 
 // ---------- Nuxt Config Update ----------
 
-// TODO: Implement this function to update the Nuxt config file with the extracted icons
-//   without overwriting existing icons.
-// async function updateNuxtConfig(icons: string[]) {
-//   const nuxtConfigPath = join(process.cwd(), NUXT_CONFIG_FILE)
-//   const config = await Bun.file(nuxtConfigPath).text()
+async function updateNuxtConfig(icons: string[]) {
+  const nuxtConfigPath = join(process.cwd(), NUXT_CONFIG_FILE)
+  const configContent = await Bun.file(nuxtConfigPath).text()
 
-//   const mergedIcons = new Set([
-//     ...(config.icon?.clientBundle?.icons || []),
-//     ...icons
-//   ])
+  const formattedIcons = icons.map(icon => `      '${icon}'`).join(',\n  ')
 
-//   config.icon.clientBundle.icons = mergedIcons
+  const updated = configContent.replace(
+    /icons:\s*\[[\s\S]*?\]/m,
+    `icons: [\n  ${formattedIcons}\n      ]`
+  )
 
-//   await Bun.write(nuxtConfigPath, config)
-//   console.log(`✅ Updated ${NUXT_CONFIG_FILE} with ${icons.length} icons.`)
-// }
+  if (updated === configContent) {
+    console.warn('⚠️ No change made. Could not locate icons array to update.')
+    return
+  }
+
+  await Bun.write(nuxtConfigPath, updated)
+  console.log(`✅ Updated ${NUXT_CONFIG_FILE} with ${icons.length} icons.`)
+}
 
 // ---------- Format ----------
 
 function cleanIcons(icons: Set<string>): string[] {
   return Array.from(icons)
     .map(icon => icon.trim())
-    .filter(icon => icon.length > 0 && !icon.includes(' '))
-    .map(icon => icon.replace(/_/g, '-'))
+    .filter(icon => ICON_COLLECTIONS.some(collection => icon.includes(`${collection}-`)))
     .map((icon) => {
-      const lastDash = icon.lastIndexOf('-')
-      return lastDash !== -1
-        ? icon.slice(0, lastDash) + ':' + icon.slice(lastDash + 1)
-        : icon
+      const raw = icon.replace(/i-/, '').trim()
+
+      const matchedCollection = ICON_COLLECTIONS
+        .filter(collection => raw.startsWith(`${collection}-`))
+        .sort((a, b) => b.length - a.length)[0]
+
+      if (!matchedCollection) {
+        console.warn(`⚠️ Unknown icon collection for: ${icon}`)
+        return null
+      }
+
+      const iconName = raw.slice(matchedCollection.length + 1)
+
+      if (!iconName) {
+        console.warn(`⚠️ Empty icon name for: ${icon}`)
+        return null
+      }
+
+      return `${matchedCollection}:${iconName}`
     })
+    .filter((icon): icon is string => !!icon)
     .filter((icon, index, self) => self.indexOf(icon) === index)
     .sort((a, b) => a.localeCompare(b))
 }
+
 // ---------- Main ----------
 
 async function main() {
@@ -115,11 +138,12 @@ async function main() {
   }
 
   const sortedIcons = cleanIcons(icons)
-  console.log(`🔍 Found ${sortedIcons.length} styled icons:`)
+  console.log(`🔍 Extracted ${icons.size} icons from directories: ${dirs.join(', ')}`)
   console.log(sortedIcons.map(i => `  '${i}'`).join(',\n'))
+  console.log(`🔍 Sorted ${sortedIcons.length} icons:`)
 
   if (write) {
-    // await updateNuxtConfig(sortedIcons)
+    await updateNuxtConfig(sortedIcons)
   }
 }
 

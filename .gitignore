@@ -27,6 +27,5 @@ logs
 .history
 
 # Project
-.private
 public/assets
 package-lock.json
