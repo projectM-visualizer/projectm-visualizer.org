@@ -155,8 +155,25 @@ const collections = {
   }),
   blog: defineCollection({
     type: 'page',
-    source: '4.blog/**/*',
+    source: '4.blog.yml',
     schema: z.object({})
+  }),
+  posts: defineCollection({
+    type: 'page',
+    source: '4.blog/**/*',
+    schema: z.object({
+      icon: z.string().optional(),
+      image: z.object({ src: z.string().nonempty().editor({ input: 'media' }) }),
+      authors: z.array(
+        z.object({
+          name: z.string().nonempty(),
+          to: z.string().nonempty(),
+          avatar: z.object({ src: z.string().nonempty().editor({ input: 'media' }) })
+        })
+      ),
+      date: z.date(),
+      badge: z.object({ label: z.string().nonempty() })
+    })
   })
 }
 

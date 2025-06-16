@@ -25,7 +25,7 @@ links:
   - label: Blog
     icon: i-lucide-pencil
     to: /blog
-    disabled: true
+    disabled: false
   - label: GitHub
     icon: i-simple-icons-github
     to: https://github.com/projectm-visualizer
