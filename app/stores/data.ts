@@ -18,7 +18,7 @@ export const useDataStore = defineStore('data', {
     async fetchProjects(): Promise<Project[]> {
       const { assetKey, siteUrl } = useRuntimeConfig().public
       const projectsBaseUrl = `${siteUrl}/assets/data/projects`
-      const url = projectsBaseUrl + (this.encrypted ? '.dat' : '.json')
+      const url = projectsBaseUrl + (this.encrypted ? '.json.aes' : '.json')
 
       try {
         const response = await fetch(url)
@@ -87,7 +87,7 @@ export const useDataStore = defineStore('data', {
     async fetchContributors(): Promise<Contributor[]> {
       const { assetKey, siteUrl } = useRuntimeConfig().public
       const contributorsBaseUrl = `${siteUrl}/assets/data/contributors`
-      const url = contributorsBaseUrl + (this.encrypted ? '.dat' : '.json')
+      const url = contributorsBaseUrl + (this.encrypted ? '.json.aes' : '.json')
 
       try {
         const response = await fetch(url)

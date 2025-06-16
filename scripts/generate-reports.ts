@@ -277,7 +277,7 @@ async function main() {
   const projectsOutput = encrypt
     ? await encryptContent(encryptionKey, JSON.stringify(enrichedReleases, null, 2))
     : JSON.stringify(enrichedRepos, null, 2)
-  const projectsFile = encrypt ? `${output}/projects.dat` : `${output}/projects.json`
+  const projectsFile = encrypt ? `${output}/projects.json.aes` : `${output}/projects.json`
   await Bun.write(projectsFile, projectsOutput, { createPath: true })
   console.log(`✅ Saved ${enrichedRepos.length} repositories → ${projectsFile}`)
 
@@ -286,7 +286,7 @@ async function main() {
   const contributorsOutput = encrypt
     ? await encryptContent(encryptionKey, JSON.stringify(contributors, null, 2))
     : JSON.stringify(contributors, null, 2)
-  const contributorsFile = encrypt ? `${output}/contributors.dat` : `${output}/contributors.json`
+  const contributorsFile = encrypt ? `${output}/contributors.json.aes` : `${output}/contributors.json`
   await Bun.write(contributorsFile, contributorsOutput, { createPath: true })
   console.log(`✅ Saved ${contributors.length} unique contributors → ${contributorsFile}`)
 

@@ -35,9 +35,11 @@ const { data: app } = await useAsyncData('links', () => queryCollection('app').f
 
 provide('navigation', navigation)
 
-const dataStore = useDataStore()
-await dataStore.fetchProjects()
-await dataStore.fetchContributors()
+if (import.meta.client) {
+  const dataStore = useDataStore()
+  await dataStore.fetchProjects()
+  await dataStore.fetchContributors()
+}
 </script>
 
 <template>
