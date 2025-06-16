@@ -145,7 +145,8 @@ onMounted(async () => {
             class="flex items-center"
           >
             <UAvatar
-              v-bind="item.avatar"
+              :src="useRuntimeConfig().public.siteUrl + item.avatar?.src"
+              :alt="item.avatar?.alt"
               class="mr-2"
             />
             <span>{{ item.avatar?.alt }}</span>
@@ -181,7 +182,8 @@ onMounted(async () => {
             class="flex items-center"
           >
             <UAvatar
-              v-bind="item.avatar"
+              :src="useRuntimeConfig().public.siteUrl + item.avatar?.src"
+              :alt="item.avatar?.alt"
               class="mr-2"
             />
             <span>{{ item.avatar?.alt }}</span>

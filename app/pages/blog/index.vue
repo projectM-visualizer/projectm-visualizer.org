@@ -15,7 +15,7 @@ useSeoMeta({
 })
 
 // TODO: Figure out OgImage component usage in static builds
-if (import.meta.client) defineOgImageComponent('myOgImage')
+// if (import.meta.client) defineOgImageComponent('myOgImage')
 </script>
 
 <template>

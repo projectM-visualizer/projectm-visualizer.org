@@ -25,7 +25,7 @@ const props = defineProps<GitHubGridCardProps>()
       <UUser
         :name="useStyleName(props.name)"
         :description="props.description || undefined"
-        :avatar="props.owner"
+        :avatar="{ src: useRuntimeConfig().public.siteUrl + props.owner?.src, alt: props.owner?.alt }"
         class="relative"
         orientation="horizontal"
         :ui="{
