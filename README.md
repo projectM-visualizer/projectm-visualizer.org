@@ -1,46 +1,48 @@
-# ProjectM Visualizer Organization Website
+# ProjectM Visualizer — Official Website
 
-This is the official website for the Projectm Visualizer organization, which hosts various visualizer projects and resources.
+[🔗 Visit the Website](https://projectm-visualizer.org)
 
-## Development
+Welcome to the official website of the **ProjectM Visualizer** organization. This site serves as a central hub for our visualizer-related projects, resources, and community updates.
 
-To set up the development environment, follow these steps:
+---
 
-1. Clone the repository:
+## 🛠 Development Setup
+
+Follow these steps to get the site running locally:
+
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/projectM-visualizer/projectm-visualizer.org
+cd projectm-visualizer.org
 ```
 
-2. Install bun.sh
+### 2. Install bun.sh
+#### Linux / macOS
 ```bash
-# Linux / macOS
 curl -fsSL https://bun.sh/install | bash
 ```
+#### Windows
 ```powershell
-# Windows
 powershell -c "irm bun.sh/install.ps1 | iex"
 ```
 
-3. Install dependencies:
+### 3. Install dependencies:
 ```bash
 bun install
 ```
 
-4. Start the development server:
+### 4. Start the development server:
 ```bash
 bun dev
 ```
 
-5. Open your browser and navigate to `http://localhost:3000` to view the website.
+### 5. Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the website.
 
 <br>
 
-## Screenshots
+## ⚠️ Known Issues
 
-<div align="center">
-  <!-- <img 
-    src="./.github/assets/example.png" 
-    alt="ProjectM Visualizer Website Screenshot" 
-    width="100%"
-  /> -->
-</div>
+- `bun install` may fail on Windows due to missing `node-gyp`. This is caused by `better-sqlite3`.
+  - To fix this, you can run `npm install` followed by `bun install` to install the dependencies.
+  - This will then allow you to utilize the environment without issues.
+  - Linux has no issues with this.
