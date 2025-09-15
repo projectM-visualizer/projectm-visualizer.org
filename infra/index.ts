@@ -26,7 +26,9 @@ const bucket = new aws.s3.BucketV2(
   {
     bucket: bucketName
   },
-  { import: bucketName }
+  {
+    import: bucketName
+  }
 )
 
 const originAccessControl = new aws.cloudfront.OriginAccessControl('siteOac', {
@@ -243,10 +245,10 @@ if (primaryDomain && hostedZoneId && certificateArn) {
 const oidcProvider = existingOidcProviderArn
   ? aws.iam.OpenIdConnectProvider.get('githubProvider', existingOidcProviderArn)
   : new aws.iam.OpenIdConnectProvider('githubProvider', {
-    url: 'https://token.actions.githubusercontent.com',
-    clientIdLists: ['sts.amazonaws.com'],
-    thumbprintLists: ['6938fd4d98bab03faadb97b34396831e3780aea1']
-  })
+      url: 'https://token.actions.githubusercontent.com',
+      clientIdLists: ['sts.amazonaws.com'],
+      thumbprintLists: ['6938fd4d98bab03faadb97b34396831e3780aea1']
+    })
 
 const normalizeRef = (ref: string) => {
   if (ref.startsWith('ref:')) return ref

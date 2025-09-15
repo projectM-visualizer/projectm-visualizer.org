@@ -14,11 +14,13 @@ useSeoMeta({
   ogDescription: description
 })
 
+/*
 if (page.value?.seo.image) {
   defineOgImage({
     url: page.value.seo.image as string
   })
 }
+*/
 </script>
 
 <template>
