@@ -129,7 +129,7 @@ onMounted(async () => {
       v-if="page.contributors"
       class="flex flex-col gap-6 sm:gap-8 pb-16 sm:pb-24 lg:pb-32"
     >
-      <UPageMarquee
+      <UMarquee
         v-if="loadingContributors || batchOne.length"
         v-bind="page.contributors"
         :ui="{
@@ -163,9 +163,9 @@ onMounted(async () => {
             <USkeleton class="h-6 w-24 rounded-full" />
           </div>
         </template>
-      </UPageMarquee>
+      </UMarquee>
 
-      <UPageMarquee
+      <UMarquee
         v-if="loadingContributors || batchTwo.length"
         v-bind="page.contributors"
         :reverse="true"
@@ -200,7 +200,7 @@ onMounted(async () => {
             <USkeleton class="h-6 w-24 rounded-full" />
           </div>
         </template>
-      </UPageMarquee>
+      </UMarquee>
     </UContainer>
 
     <UPageSection

@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@nuxt/eslint',
     '@nuxt/image',
-    '@nuxt/ui-pro',
+    '@nuxt/ui',
     '@nuxt/content',
     '@pinia/nuxt',
     '@vueuse/nuxt',
@@ -34,11 +34,7 @@ export default defineNuxtConfig({
     '/docs': { redirect: '/docs/user', prerender: false }
   },
 
-  future: {
-    compatibilityVersion: 4
-  },
-
-  compatibilityDate: '2025-06-14',
+  compatibilityDate: '2025-07-15',
 
   nitro: {
     prerender: {
