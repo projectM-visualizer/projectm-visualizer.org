@@ -18,6 +18,29 @@ const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
 
 const title = page.value.seo?.title || page.value.title
 const description = page.value.seo?.description || page.value.description
+const timeZone = ref()
+
+const date = computed(() => {
+  if (!page.value?.date || !timeZone.value) {
+    return undefined
+  }
+
+  const _date = new Date(page.value?.date)
+  const _dateString = _date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: timeZone.value
+  })
+  const _timeString = _date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: timeZone.value,
+    timeZoneName: 'short'
+  })
+
+  return `Updated at ${_timeString} (${_dateString})`
+})
 
 useSeoMeta({
   title,
@@ -27,6 +50,10 @@ useSeoMeta({
 })
 
 defineOgImageComponent('Saas')
+
+onMounted(() => {
+  timeZone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+})
 </script>
 
 <template>
@@ -42,7 +69,10 @@ defineOgImageComponent('Saas')
         :value="page"
       />
 
-      <USeparator v-if="surround?.length" />
+      <DateSeparator
+        v-if="surround?.length"
+        :label="date"
+      />
 
       <UContentSurround :surround="surround" />
     </UPageBody>

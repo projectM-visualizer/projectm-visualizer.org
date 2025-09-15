@@ -127,7 +127,10 @@ const collections = {
   }),
   docs: defineCollection({
     type: 'page',
-    source: '1.docs/**/*'
+    source: '1.docs/**/*',
+    schema: z.object({
+      date: z.date()
+    })
   }),
   download: defineCollection({
     type: 'page',
@@ -158,7 +161,7 @@ const collections = {
   blog: defineCollection({
     type: 'page',
     source: '4.blog.yml',
-    schema: createBaseSchema().extend({
+    schema: z.object({
       image: createImageSchema().optional()
     })
   }),
