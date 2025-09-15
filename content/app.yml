@@ -13,6 +13,11 @@ links:
         description: Dive into our developer documentation.
         to: /docs/developer
         disabled: false
+      - label: Preset Authoring Guide
+        icon: i-lucide-puzzle
+        description: Learn how to create your own presets.
+        to: /docs/preset-authoring
+        disabled: false
     disabled: false
   - label: Download
     icon: i-lucide-download
