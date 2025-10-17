@@ -27,5 +27,7 @@ logs
 .history
 
 # Project
-public/assets
+public/assets/data
+public/assets/images/avatars
+public/assets/videos/*_orig.mp4
 package-lock.json
