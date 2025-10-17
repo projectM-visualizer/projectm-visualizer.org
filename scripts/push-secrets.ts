@@ -15,11 +15,11 @@ import _sodium from 'libsodium-wrappers'
 // ---------- Config & Constants ----------
 
 const ENV_FILE = '.env'
-const ENV_KEYS = 'GH_TOKEN,NUXT_UI_PRO_LICENSE,NUXT_PUBLIC_SITE_URL,NUXT_PUBLIC_ASSET_KEY,REMOTE_CONNECTION'
+const ENV_KEYS = 'GH_TOKEN,NUXT_PUBLIC_SITE_URL,NUXT_PUBLIC_ASSET_KEY,REMOTE_CONNECTION'
 
 const OWNER = 'projectm-visualizer'
 const REPOSITORY = 'projectm-visualizer.org'
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN
+const GH_TOKEN = process.env.GH_TOKEN
 
 // ---------- Arg Parser ----------
 
@@ -37,10 +37,10 @@ function parseArgs() {
   const keyNames = getArgValue(args, '--keyNames', '-k', ENV_KEYS)?.split(',').map(key => key.trim()) || []
   const owner = getArgValue(args, '--owner', '-o', OWNER)
   const repo = getArgValue(args, '--repo', '-r', REPOSITORY)
-  const token = getArgValue(args, '--token', '-t', GITHUB_TOKEN)
+  const token = getArgValue(args, '--token', '-t', GH_TOKEN)
 
   if (!token) {
-    console.error('❌ Missing GitHub token. Use --token or -t to provide it or set GITHUB_TOKEN environment variable.')
+    console.error('❌ Missing GitHub token. Use --token or -t to provide it or set GH_TOKEN environment variable.')
     process.exit(1)
   }
 

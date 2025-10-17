@@ -16,7 +16,7 @@ import Bun from 'bun'
 const OWNER = 'projectm-visualizer'
 const OUTPUT_DATA_DIR = 'public/assets/data'
 const OUTPUT_AVATAR_DIR = 'public/assets/images/avatars'
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN
+const GH_TOKEN = process.env.GH_TOKEN
 const ENCRYPTION_KEY = process.env.NUXT_PUBLIC_ASSET_KEY
 
 // ---------- Arg Parser ----------
@@ -35,7 +35,7 @@ function parseArgs() {
   const outputDataDir = getArgValue(args, '--outputData', '-d', OUTPUT_DATA_DIR)
   const outputAvatarDir = getArgValue(args, '--outputAvatars', '-a', OUTPUT_AVATAR_DIR)
   const owner = getArgValue(args, '--owner', '-n', OWNER)
-  const token = getArgValue(args, '--token', '-t', GITHUB_TOKEN)
+  const token = getArgValue(args, '--token', '-t', GH_TOKEN)
 
   if (!encryptionKey && encrypt) {
     console.error('❌ Missing encryption key. Use --encryptionKey or -k to provide it or set NUXT_PUBLIC_ASSET_KEY environment variable.')
@@ -43,7 +43,7 @@ function parseArgs() {
   }
 
   if (!token) {
-    console.error('❌ Missing GitHub token. Use --token or -t to provide it or set GITHUB_TOKEN environment variable.')
+    console.error('❌ Missing GitHub token. Use --token or -t to provide it or set GH_TOKEN environment variable.')
     process.exit(1)
   }
 

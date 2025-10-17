@@ -46,11 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NUXT_PUBLIC_ASSET_KEY: ${{ secrets.NUXT_PUBLIC_ASSET_KEY }}
 
-      - name: Push assets
-        run: bun run ftp:assets:push --force
-        env:
-          REMOTE_CONNECTION: ${{ secrets.REMOTE_CONNECTION }}
-
       - name: Build
         run: bun run generate
         env:
