@@ -1,26 +1,16 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'docs'
-})
-
 const route = useRoute()
+const { data: page } = await useAsyncData(`page-${route.path}`, () => queryCollection('policies').path(route.path).first())
 
-const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
 if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found.', fatal: true })
 }
-
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () => {
-  return queryCollectionItemSurroundings('docs', route.path, {
-    fields: ['description']
-  })
-})
 
 const title = page.value.seo?.title || page.value.title
 const description = page.value.seo?.description || page.value.description
 const timeZone = ref()
 
-const date = computed(() => {
+const headline = computed(() => {
   if (!page.value?.date || !timeZone.value) {
     return undefined
   }
@@ -51,37 +41,31 @@ useSeoMeta({
 
 // defineOgImageComponent('Saas')
 
+// if (page.value.image?.src) {
+//   defineOgImage({
+//     url: page.value.image.src
+//   })
+// } else {
+//   defineOgImageComponent('myOgImage', {
+//     headline: 'Blog'
+//   })
+// }
+
 onMounted(() => {
   timeZone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 })
 </script>
 
 <template>
-  <UPage v-if="page">
+  <UContainer>
     <UPageHeader
-      :title="page.title"
-      :description="page.description"
+      :title="page?.title"
+      :headline="headline"
     />
 
-    <UPageBody>
-      <ContentRenderer
-        v-if="page.body"
-        :value="page"
-      />
-
-      <DateSeparator
-        v-if="surround?.length"
-        :label="date"
-      />
-
-      <UContentSurround :surround="surround" />
-    </UPageBody>
-
-    <template
-      v-if="page?.body?.toc?.links?.length"
-      #right
-    >
-      <UContentToc :links="page.body.toc.links" />
-    </template>
-  </UPage>
+    <ContentRenderer
+      v-if="page"
+      :value="page"
+    />
+  </UContainer>
 </template>

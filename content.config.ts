@@ -181,6 +181,13 @@ const collections = {
       date: z.date(),
       badge: z.object({ label: z.string().nonempty() })
     })
+  }),
+  policies: defineCollection({
+    type: 'page',
+    source: 'policies/*.md',
+    schema: z.object({
+      date: z.string()
+    })
   })
 }
 
