@@ -64,4 +64,16 @@ Set these repository secrets and variables before running the deployment workflo
 - `vars.S3_BUCKET`: Target S3 bucket name (`prjm`).
 - `vars.CLOUDFRONT_DISTRIBUTION_ID`: Distribution ID exported by Pulumi.
 
+### CloudFront Access Logging
+
+Provision the log bucket and enable CloudFront logging with the helper script (run once per environment):
+
+```bash
+cd infra
+AWS_PROFILE=projectm AWS_SDK_LOAD_CONFIG=1 node scripts/enable-cloudfront-logging.mjs
+```
+
+By default this creates `projectm-visualizer-cloudfront-logs` in `us-west-2` and configures the distribution to write compressed logs (cookies included) under the `cloudfront/` prefix.
+
+
 The workflow runs on pushes to `master` and can also be triggered manually.

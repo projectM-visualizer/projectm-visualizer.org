@@ -9,6 +9,8 @@
     "prettier": "prettier --check \"src/**/*.ts\""
   },
   "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.913.0",
+    "@aws-sdk/client-s3": "^3.913.0",
     "@pulumi/aws": "^6.28.0",
     "@pulumi/pulumi": "^3.149.0"
   },
