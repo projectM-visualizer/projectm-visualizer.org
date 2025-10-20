@@ -218,9 +218,30 @@ const oidcProvider = existingOidcProviderArn
     thumbprintLists: ['6938fd4d98bab03faadb97b34396831e3780aea1']
   })
 
-const subjects = githubRefs.map(
-  ref => `repo:${githubOwner}/${githubRepo}:${ref}`
+const normalizeRef = (ref: string) => {
+  if (ref.startsWith('ref:')) return ref
+  if (ref.startsWith(':')) return `ref${ref}`
+  return `ref:${ref}`
+}
+
+const ownerCandidates = Array.from(
+  new Set([githubOwner, githubOwner.toLowerCase()])
 )
+const repoCandidates = Array.from(
+  new Set([githubRepo, githubRepo.toLowerCase()])
+)
+
+const subjectSet = new Set<string>()
+for (const owner of ownerCandidates) {
+  for (const repo of repoCandidates) {
+    subjectSet.add(`repo:${owner}/${repo}:*`)
+    for (const ref of githubRefs) {
+      subjectSet.add(`repo:${owner}/${repo}:${normalizeRef(ref)}`)
+    }
+  }
+}
+
+const subjects = Array.from(subjectSet)
 
 const assumeRolePolicy = pulumi.all([oidcProvider.arn]).apply(([providerArn]) =>
   JSON.stringify({

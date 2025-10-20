@@ -15,6 +15,7 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION }}
   S3_BUCKET: ${{ vars.S3_BUCKET }}
   CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+  NUXT_PUBLIC_SITE_URL: ${{ github.ref == 'refs/heads/master' && secrets.NUXT_PUBLIC_SITE_URL || vars.PREVIEW_SITE_URL }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   NUXT_PUBLIC_ASSET_KEY: ${{ secrets.NUXT_PUBLIC_ASSET_KEY }}
 
@@ -32,6 +33,10 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
+
+      - name: Show site URL
+        if: github.ref != 'refs/heads/master'
+        run: echo "NUXT_PUBLIC_SITE_URL=${NUXT_PUBLIC_SITE_URL}"
 
       - name: Generate reports
         run: bun run generate-reports
