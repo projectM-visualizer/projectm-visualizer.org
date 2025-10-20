@@ -1,0 +1,21 @@
+{
+  "name": "projectm-infra",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "prettier": "prettier --check \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@pulumi/aws": "^6.28.0",
+    "@pulumi/pulumi": "^3.149.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
