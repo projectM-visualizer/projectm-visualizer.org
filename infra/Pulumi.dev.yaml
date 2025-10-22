@@ -6,3 +6,5 @@ config:
   projectm-infra:githubOwner: projectM-visualizer
   projectm-infra:githubRefs: '["ref:refs/heads/*","ref:refs/tags/*","ref:refs/pull/*"]'
   projectm-infra:githubRepo: projectm-visualizer.org
+  projectm-infra:primaryDomain: projectm-visualizer.org
+  projectm-infra:hostedZoneId: Z0970442162ZXM1J1N8GK

@@ -48,14 +48,36 @@ if (certificateArnFromConfig) {
     {
       domainName: primaryDomain,
       validationMethod: 'DNS',
-      subjectAlternativeNames: alternateDomains
+      subjectAlternativeNames: alternateDomains,
+      validationOptions: [
+        {
+          domainName: primaryDomain,
+          validationDomain: primaryDomain
+        },
+        ...alternateDomains.map(domain => ({
+          domainName: domain,
+          validationDomain: domain
+        }))
+      ]
     },
-    { provider: eastRegion }
+    {
+      provider: eastRegion,
+      customTimeouts: {
+        create: '20m',
+        delete: '5m'
+      }
+    }
   )
 
-  const validationRecords = certificate.domainValidationOptions.apply(
-    options =>
-      options.map(
+  const validationRecords = certificate.domainValidationOptions.apply(options =>
+    options
+      .filter(
+        option =>
+          option.resourceRecordName
+          && option.resourceRecordType
+          && option.resourceRecordValue
+      )
+      .map(
         (option, index) =>
           new aws.route53.Record(
             `siteCertValidation-${index}`,
@@ -64,7 +86,8 @@ if (certificateArnFromConfig) {
               name: option.resourceRecordName,
               type: option.resourceRecordType,
               records: [option.resourceRecordValue],
-              ttl: 60
+              ttl: 60,
+              allowOverwrite: true
             },
             { dependsOn: certificate }
           )
@@ -79,7 +102,14 @@ if (certificateArnFromConfig) {
         records.map(record => record.fqdn)
       )
     },
-    { provider: eastRegion }
+    {
+      provider: eastRegion,
+      customTimeouts: {
+        create: '20m',
+        update: '20m',
+        delete: '5m'
+      }
+    }
   )
 
   certificateArn = certificateValidation.certificateArn
