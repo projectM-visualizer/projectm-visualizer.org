@@ -1,0 +1,7 @@
+name: projectm-infra
+runtime:
+  name: nodejs
+  options:
+    typescript: true
+main: index.ts
+description: Infrastructure for the ProjectM static site on AWS.

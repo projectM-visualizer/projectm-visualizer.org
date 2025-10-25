@@ -1,0 +1,10 @@
+encryptionsalt: v1:W1NLKXoFxV4=:v1:S5quyyMBvgH4qAzD:tYNPw7qdVcUbCoFdkwH+URbo1ukeqQ==
+config:
+  aws:region: us-west-2
+  projectm-infra:bucketName: prjm
+  projectm-infra:cloudfrontPriceClass: PriceClass_100
+  projectm-infra:githubOwner: projectM-visualizer
+  projectm-infra:githubRefs: '["ref:refs/heads/*","ref:refs/tags/*","ref:refs/pull/*"]'
+  projectm-infra:githubRepo: projectm-visualizer.org
+  projectm-infra:primaryDomain: projectm-visualizer.org
+  projectm-infra:hostedZoneId: Z0970442162ZXM1J1N8GK
