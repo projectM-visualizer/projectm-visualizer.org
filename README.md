@@ -43,6 +43,6 @@ bun dev
 ## ⚠️ Known Issues
 
 - `bun install` may fail on Windows due to missing `node-gyp`. This is caused by `better-sqlite3`.
-  - To fix this, you can run `npm install` followed by `bun install` to install the dependencies.
+  - To fix this, you can run `npm install --legacy-peer-deps` followed by `bun install` to install the dependencies.
   - This will then allow you to utilize the environment without issues.
   - Linux has no issues with this.

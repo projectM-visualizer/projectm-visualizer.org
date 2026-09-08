@@ -26,17 +26,18 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.68",
     "@iconify-json/simple-icons": "^1.2.52",
-    "@nuxt/content": "3.5.1",
-    "@nuxt/image": "^1.11.0",
+    "@nuxt/content": "3.16.0",
+    "@nuxt/image": "^2.1.0",
     "@nuxt/ui": "^4.0.1",
     "@nuxtjs/device": "^3.2.4",
     "@pinia/nuxt": "^0.11.2",
     "@standard-schema/spec": "^1.0.0",
+    "@takumi-rs/core": "^2.13.7",
     "@videojs-player/vue": "^1.0.0",
     "@vueuse/nuxt": "^13.9.0",
-    "better-sqlite3": "^12.2.0",
-    "nuxt": "^4.1.2",
-    "nuxt-og-image": "^5.1.9",
+    "better-sqlite3": "^13.0.3",
+    "nuxt": "^4.5.2",
+    "nuxt-og-image": "^6.7.8",
     "pinia": "^3.0.3",
     "video.js": "^8.23.4",
     "zod": "^4.1.8"
@@ -53,7 +54,7 @@
     "libsodium-wrappers": "^0.7.15",
     "lint-staged": "^16.1.6",
     "octokit": "^5.0.3",
-    "semantic-release": "^24.2.8",
+    "semantic-release": "^25.0.9",
     "simple-git-hooks": "^2.13.1",
     "typescript": "^5.8.3",
     "vue-tsc": "^3.0.7"
@@ -103,5 +104,14 @@
         }
       ]
     ]
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true,
+    "esbuild@0.27.2": true,
+    "esbuild@0.28.2": true,
+    "sharp@0.32.6": true,
+    "simple-git-hooks@2.14.0": true,
+    "unrs-resolver@1.12.2": true,
+    "vue-demi@0.14.10": true
   }
 }
