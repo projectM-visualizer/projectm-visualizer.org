@@ -158,6 +158,23 @@ const collections = {
       }).optional()
     })
   }),
+  presets: defineCollection({
+    type: 'page',
+    source: '5.presets.yml',
+    schema: z.object({
+      presets: createBaseSchema().extend({
+        icon: z.string().optional(),
+        groups: z.array(z.object({
+          title: z.string().nonempty(),
+          items: z.array(createBaseSchema().extend({
+            count: z.string().nonempty(),
+            to: z.string().nonempty()
+          }))
+        })),
+        links: z.array(createLinkSchema()).optional()
+      }).optional()
+    })
+  }),
   blog: defineCollection({
     type: 'page',
     source: '4.blog.yml',

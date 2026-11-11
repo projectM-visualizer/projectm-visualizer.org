@@ -105,6 +105,8 @@ export default defineNuxtConfig({
         'lucide:monitor',
         'lucide:moon',
         'lucide:newspaper',
+        'lucide:package',
+        'lucide:palette',
         'lucide:panel-left-close',
         'lucide:panel-left-open',
         'lucide:pencil',

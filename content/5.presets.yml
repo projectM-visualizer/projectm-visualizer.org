@@ -1,0 +1,59 @@
+title: Presets
+description: Preset packs that work with projectM.
+
+presets:
+  icon: i-lucide-palette
+  title: Presets
+  description: Preset packs that work with projectM. Unzip a pack into your app's preset folder.
+  groups:
+    - title: Official
+      items:
+        - title: Cream of the Crop
+          description: Picked by Jason Fletcher from all released Milkdrop presets. The default pack in most new projectM releases.
+          count: 9,795 presets
+          to: https://github.com/projectM-visualizer/presets-cream-of-the-crop
+        - title: projectM Classic
+          description: The collection shipped with projectM up to version 3.1.12.
+          count: 4,188 presets
+          to: https://github.com/projectM-visualizer/presets-projectm-classic
+        - title: Milkdrop Original
+          description: The presets that came with the last official Milkdrop release.
+          count: 552 presets
+          to: https://github.com/projectM-visualizer/presets-milkdrop-original
+        - title: En D
+          description: Presets made or remixed by En D.
+          count: 40 presets
+          to: https://github.com/projectM-visualizer/presets-en-d
+        - title: Milkdrop Texture Pack
+          description: The textures released with Milkdrop, plus others used by many presets. Needed by any preset that loads a texture.
+          count: 67 textures
+          to: https://github.com/projectM-visualizer/presets-milkdrop-texture-pack
+    - title: Community
+      items:
+        - title: Isosceles Mashups 2020
+          description: Presets by Jason Fletcher (Isosceles).
+          count: 1,131 presets
+          to: https://www.patreon.com/isoscelesVJ/posts/pack-nestdrop-1-91682111?collection=1306148
+        - title: Isosceles Mashups 2024
+          description: Presets by Jason Fletcher (Isosceles).
+          count: 986 presets
+          to: https://www.patreon.com/isoscelesVJ/posts/pack-nestdrop-2-115453098?collection=1306148
+        - title: Flexi's Collection
+          description: Presets gathered from around the web.
+          count: 3,008 presets
+          to: https://github.com/LeetCodes/milkdrop-preset-collection
+        - title: Butterchurn Presets
+          description: The presets picked for the Butterchurn web visualizer. The original files are in presets/milkdrop.
+          count: 504 presets
+          to: https://github.com/jberg/butterchurn-presets
+        - title: Ryan Geiss's Favorites
+          description: Favorite presets from Milkdrop's author, as a zip on his Milkdrop page.
+          count: 1,355 presets
+          to: https://www.geisswerks.com/milkdrop/
+  links:
+    - label: Preset Authoring Guide
+      icon: i-lucide-puzzle
+      to: /docs/preset-authoring
+      color: neutral
+      variant: subtle
+      trailingIcon: i-lucide-arrow-right
