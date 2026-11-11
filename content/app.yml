@@ -23,6 +23,10 @@ links:
     icon: i-lucide-download
     to: /download
     disabled: false
+  - label: Presets
+    icon: i-lucide-palette
+    to: /presets
+    disabled: false
   - label: Projects
     icon: i-lucide-folder-root
     to: /projects
